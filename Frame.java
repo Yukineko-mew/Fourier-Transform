@@ -22,7 +22,8 @@ public class Frame extends JFrame{
 	
 	private void createDataset(int num) {
 		data = new DefaultCategoryDataset();
-		Fouriertransform ft = new Fouriertransform(num);
+//		Fouriertransform ft = new Fouriertransform(num);
+		Fourier ft = new Fourier(num);
 		double [] theReal = ft.getReal();
 		double [] theImaginary = ft.getImaginary();
 		for(int i=0; i<num; i++) {
@@ -32,13 +33,13 @@ public class Frame extends JFrame{
 			data.addValue(theImaginary[i], "Imaginary", String.valueOf(i));			
 			System.out.println("real = [" + theReal[i] + "], imaginary = [" + theImaginary[i] + "]");
 		}
-		ft.show();
+//		ft.show();
 	}
 	
 	public Frame() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(800, 600);
-		createDataset(36);
+		createDataset(100);
 	    JFreeChart chart = ChartFactory.createLineChart("Fourier Transform", 
 	                                                    "Fre",
 	                                                    "Arrivals",
