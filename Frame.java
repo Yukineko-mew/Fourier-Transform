@@ -18,31 +18,23 @@ import org.jfree.data.xy.IntervalXYDataset;
  *
  */
 public class Frame extends JFrame{
-	DefaultCategoryDataset data;
-	
-	private void createDataset(int num) {
-		data = new DefaultCategoryDataset();
-//		Fouriertransform ft = new Fouriertransform(num);
-		Fourier ft = new Fourier(num);
-		double [] theReal = ft.getReal();
-		double [] theImaginary = ft.getImaginary();
-		for(int i=0; i<num; i++) {
-//			data.addValue((double)i, "Real", String.valueOf(theReal[i]));
-			data.addValue(theReal[i], "Real", String.valueOf(i));
-//			data.addValue((double)i, "Imaginary", String.valueOf(theImaginary[i]));
-			data.addValue(theImaginary[i], "Imaginary", String.valueOf(i));			
-			System.out.println("real = [" + theReal[i] + "], imaginary = [" + theImaginary[i] + "]");
-		}
-//		ft.show();
-	}
+	DefaultCategoryDataset data; // JTreeChartのデータセットを格納する変数
+
+	/*
+	 * コンストラクタ
+	 * 
+	 * JTreeChartの設定とJFrameの設定を行う．
+	 * 
+	 * 
+	 */
 	
 	public Frame() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(800, 600);
 		createDataset(100);
 	    JFreeChart chart = ChartFactory.createLineChart("Fourier Transform", 
-	                                                    "Fre",
-	                                                    "Arrivals",
+	                                                    "Data Number",
+	                                                    "Variable",
 	                                                    data,
 	                                                    PlotOrientation.VERTICAL, 
 	                                                    true, 
@@ -52,6 +44,28 @@ public class Frame extends JFrame{
 	    ChartPanel cpanel = new ChartPanel(chart);
 	    this.getContentPane().add(cpanel);
 		this.setVisible(true);
+	}
+	
+	/*
+	 * データセットを変数に登録するメソッド
+	 * 
+	 * デバッグとして，Fourierクラスのshowメソッドを呼びだしている．
+	 * 引数 num はデータ数を示している．
+	 * for文の部分のループ変数iが1から始まっているのは，
+	 * 
+	 */
+	
+	private void createDataset(int num) {
+		data = new DefaultCategoryDataset();
+		Fourier ft = new Fourier(num);
+		ft.dftCalc();
+		double [] theReal = ft.getReal();
+		double [] theImaginary = ft.getImaginary();
+		for(int i=1; i<num; i++) {
+			data.addValue(theReal[i], "Real", String.valueOf(i));
+			data.addValue(theImaginary[i], "Imaginary", String.valueOf(i));			
+		}
+		ft.show();
 	}
 	
 	public static void main(String [] argas) {
